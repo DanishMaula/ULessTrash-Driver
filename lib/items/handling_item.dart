@@ -33,6 +33,9 @@ class HandlingItem extends StatelessWidget {
                   Row(
                     children: [
                       Text('ID ORDER:', style: idOrder),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Text(
                         handlingModel.numberOrder,
                         style: idAddress,
@@ -45,6 +48,9 @@ class HandlingItem extends StatelessWidget {
                   Row(
                     children: [
                       Text('ADDRESS:', style: idOrder),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

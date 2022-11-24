@@ -7,14 +7,14 @@ import 'package:ulesstrash_driver/utils/color.dart';
 
 import '../../utils/textstyle.dart';
 
-class MapSample extends StatefulWidget {
-  const MapSample({super.key});
+class MapDetails extends StatefulWidget {
+  const MapDetails({super.key});
 
   @override
-  State<MapSample> createState() => MapSampleState();
+  State<MapDetails> createState() => MapDetailsState();
 }
 
-class MapSampleState extends State<MapSample> {
+class MapDetailsState extends State<MapDetails> {
   final Completer<GoogleMapController> _controller = Completer();
 
   // ignore: prefer_const_constructors
@@ -97,12 +97,12 @@ class MapSampleState extends State<MapSample> {
       ),
       bottomNavigationBar: Container(
           height: 50,
-          color: const Color(0xff2D8D7B),
+          color: const Color(0xffFAF9F9),
           child: MaterialButton(
             onPressed: () {},
             child: Text(
               'Accept',
-              style: txtNextRefunds,
+              style: txtAcceptDetails,
             ),
           )),
     );

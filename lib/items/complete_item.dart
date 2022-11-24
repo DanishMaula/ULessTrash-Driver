@@ -30,6 +30,9 @@ class CompleteItem extends StatelessWidget {
                   Row(
                     children: [
                       Text('ID ORDER:', style: idOrder),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Text(
                         completeModel.numberOrder,
                         style: idAddress,
@@ -42,6 +45,9 @@ class CompleteItem extends StatelessWidget {
                   Row(
                     children: [
                       Text('ADDRESS:', style: idOrder),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

@@ -32,6 +32,9 @@ class RequestItem extends StatelessWidget {
                   Row(
                     children: [
                       Text('ID ORDER:', style: idOrder),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Text(
                         requestModel.numberOrder,
                         style: idAddress,
@@ -44,6 +47,9 @@ class RequestItem extends StatelessWidget {
                   Row(
                     children: [
                       Text('ADDRESS:', style: idOrder),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

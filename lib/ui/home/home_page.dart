@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:ulesstrash_driver/ui/home/tabbar_home.dart';
+import 'package:ulesstrash_driver/ui/profile/profile_screen.dart';
 
 import '../../utils/color.dart';
 import '../../utils/textstyle.dart';
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, (() => showAlert(context)));
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -85,15 +88,24 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        const Center(
-                          child: CircleAvatar(
-                            radius: 55,
-                            backgroundImage: NetworkImage(
-                                'https://images.unsplash.com/photo-1526800544336-d04f0cbfd700?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cHJvZmlsZXxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60'),
+                        Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfileScreen()));
+                            },
+                            child: const CircleAvatar(
+                              radius: 55,
+                              backgroundImage: NetworkImage(
+                                  'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 5),
-                        Text('Driver Name', style: btnBackToHome),
+                        Text('Raeihan Alvaro', style: btnBackToHome),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -128,6 +140,111 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+    );
+  }
+
+  void showAlert(BuildContext context) {
+    showGeneralDialog(
+      barrierLabel: "Label",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: const Duration(milliseconds: 500),
+      context: context,
+      pageBuilder: (context, anim1, anim2) {
+        return Align(
+          alignment: Alignment.center,
+          child: Wrap(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(left: 12, right: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(0xff101010),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 25, 20, 25),
+                    child: Column(
+                      children: [
+                        DefaultTextStyle(
+                            textAlign: TextAlign.center,
+                            style: titleNewOrder,
+                            child: const Text(('NEW ORDER'))),
+                        const SizedBox(height: 20),
+                        DefaultTextStyle(
+                            textAlign: TextAlign.center,
+                            style: dialogClientName,
+                            child: const Text(('Rohan Pandia'))),
+                        const SizedBox(height: 15),
+                        DefaultTextStyle(
+                            textAlign: TextAlign.center,
+                            style: dialogOrderId,
+                            child: const Text(('07102001'))),
+                        const SizedBox(height: 15),
+                        DefaultTextStyle(
+                            textAlign: TextAlign.center,
+                            style: dialogAddress,
+                            child: const Text(
+                                ('Perumahan Nusa Loka Blok B2 No 2, Jombang, Ciputat, Tangsel'))),
+                        const SizedBox(height: 15),
+                        DefaultTextStyle(
+                            textAlign: TextAlign.center,
+                            style: dialogPrice,
+                            child: const Text(('\$ 10'))),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      color: const Color(0xff393939)),
+                                ),
+                                child: MaterialButton(
+                                  height: 45,
+                                  color: const Color(0xff161616),
+                                  onPressed: (() {
+                                    Navigator.pop(context);
+                                  }),
+                                  child: Text(
+                                    'Reject',
+                                    style: dialogAccRej,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                child: MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  height: 45,
+                                  color: AppColor.primaryColor,
+                                  onPressed: (() {
+                                    Navigator.pop(context);
+                                  }),
+                                  child: Text(
+                                    'Accept',
+                                    style: dialogAccRej,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ulesstrash_driver/ui/map/map_details.dart';
 
 import '../../../items/Complete_item.dart';
 import '../../../models/Handling_model.dart';
@@ -19,8 +20,16 @@ class CompleteScreen extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: ((cntext, index) {
                 final CompleteModel completeModel = completeList[index];
-                return CompleteItem(
-                  completeModel: completeModel,
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MapDetails()));
+                  },
+                  child: CompleteItem(
+                    completeModel: completeModel,
+                  ),
                 );
               }))
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ulesstrash_driver/ui/map/map_details.dart';
 
 import '../../../items/handling_item.dart';
 import '../../../models/Handling_model.dart';
@@ -18,8 +19,16 @@ class HandlingScreen extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: ((context, index) {
                 final HandlingModel handlingModel = handlingList[index];
-                return HandlingItem(
-                  handlingModel: handlingModel,
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MapDetails()));
+                  },
+                  child: HandlingItem(
+                    handlingModel: handlingModel,
+                  ),
                 );
               }))
         ],

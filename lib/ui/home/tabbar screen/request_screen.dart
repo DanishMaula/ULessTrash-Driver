@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:ulesstrash_driver/models/request_model.dart';
+import 'package:ulesstrash_driver/ui/map/map_accept.dart';
 
 import '../../../items/request_item.dart';
 
@@ -20,8 +21,14 @@ class RequestScreen extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: ((context, index) {
                 final RequestModel requestModel = requestList[index];
-                return RequestItem(
-                  requestModel: requestModel,
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const MapSample()));
+                  },
+                  child: RequestItem(
+                    requestModel: requestModel,
+                  ),
                 );
               }))
         ],

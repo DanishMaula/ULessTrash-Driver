@@ -21,72 +21,15 @@ class _TabBarMenuState extends State<TabBarMenu>
   late TabController _tabController;
 
   //tab bar menu
-  final List<Tab> myTab = <Tab>[
-    Tab(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: AppColor.tabbarUnclick,
-            )),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text("All"),
-        ),
-      ),
-    ),
-    Tab(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: AppColor.tabbarUnclick,
-            )),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text("Request"),
-        ),
-      ),
-    ),
-    Tab(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: AppColor.tabbarUnclick,
-            )),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text("Handling"),
-        ),
-      ),
-    ),
-    Tab(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: AppColor.tabbarUnclick,
-            )),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text("Complete"),
-        ),
-      ),
-    ),
-  ];
 
   @override
   void initState() {
+    super.initState();
     _tabController = TabController(
       length: 4,
       vsync: this,
+      animationDuration: Duration(milliseconds: 5),
     );
-    super.initState();
   }
 
   @override
@@ -97,8 +40,73 @@ class _TabBarMenuState extends State<TabBarMenu>
 
   @override
   Widget build(BuildContext context) {
+    //tabs
+    final List<Tab> myTab = <Tab>[
+      Tab(
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: _tabController.index == 0
+                    ? AppColor.tabbarClick
+                    : AppColor.tabbarUnclick,
+              )),
+          child: Text("All"),
+        ),
+      ),
+      Tab(
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: _tabController.index == 1
+                    ? AppColor.tabbarClick
+                    : AppColor.tabbarUnclick,
+              )),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text("Request"),
+          ),
+        ),
+      ),
+      Tab(
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: _tabController.index == 2
+                    ? AppColor.tabbarClick
+                    : AppColor.tabbarUnclick,
+              )),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text("Handling"),
+          ),
+        ),
+      ),
+      Tab(
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: _tabController.index == 3
+                    ? AppColor.tabbarClick
+                    : AppColor.tabbarUnclick,
+              )),
+          child: const Align(
+            alignment: Alignment.center,
+            child: Text("Complete"),
+          ),
+        ),
+      ),
+    ];
+
     return SizedBox(
-      height: MediaQuery.of(context).size.height,
+      height: 600,
       child: Column(
         children: [
           TabBar(
