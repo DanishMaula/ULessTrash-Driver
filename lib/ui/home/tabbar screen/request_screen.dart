@@ -7,7 +7,8 @@ import 'package:ulesstrash_driver/ui/map/map_accept.dart';
 import '../../../items/request_item.dart';
 
 class RequestScreen extends StatelessWidget {
-  const RequestScreen({super.key});
+  bool isSwitched;
+   RequestScreen({super.key, this.isSwitched = true});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class RequestScreen extends StatelessWidget {
                 return InkWell(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const MapSample()));
+                        MaterialPageRoute(builder: (context) => MapSample(isSwitched: isSwitched,)));
                   },
                   child: RequestItem(
                     requestModel: requestModel,

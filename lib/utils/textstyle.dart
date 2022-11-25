@@ -216,3 +216,21 @@ TextStyle dialogAccRej = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
   color: const Color(0xffFFffff),
 );
+
+TextStyle dialogCnfrmNo = GoogleFonts.poppins(
+  fontSize: 10,
+  fontWeight: FontWeight.w600,
+  color: const Color(0xff2D8D7B),
+);
+
+TextStyle dialogCnfrmYes = GoogleFonts.poppins(
+  fontSize: 10,
+  fontWeight: FontWeight.w600,
+  color: const Color(0xffFFffff),
+);
+
+TextStyle dialogCnfrmYesBlck = GoogleFonts.poppins(
+  fontSize: 10,
+  fontWeight: FontWeight.w600,
+  color: const Color(0xff101010),
+);

@@ -10,19 +10,22 @@ import '../../utils/textstyle.dart';
 import '../top up/select_rekening.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  bool isSwitched;
+  HomePage({super.key, this.isSwitched = true});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  var isSwitched = true;
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, (() => showAlert(context)));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration.zero, (() => showAlert(context)));
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -68,24 +71,30 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            // add switch
+
+                            // Switch Online and Offline
                             FlutterSwitch(
-                              toggleSize: 15,
-                              height: 30,
-                              activeToggleColor: const Color(0xff00F4A8),
-                              padding: 5,
-                              activeColor: const Color(0xff000000),
-                              inactiveColor: const Color(0xff000000),
-                              showOnOff: true,
-                              activeTextColor: Colors.white,
-                              inactiveTextColor: const Color(0xffFF3D00),
-                              value: isSwitched,
-                              onToggle: (val) {
-                                setState(() {
-                                  isSwitched = val;
-                                });
-                              },
-                            ),
+                                toggleSize: 15,
+                                height: 30,
+                                activeToggleColor: const Color(0xff00F4A8),
+                                padding: 5,
+                                activeColor: const Color(0xff000000),
+                                inactiveColor: const Color(0xff000000),
+                                showOnOff: true,
+                                activeTextColor: Colors.white,
+                                inactiveTextColor: const Color(0xffFF3D00),
+                                value: widget.isSwitched,
+                                // on toggle show dialog
+                                onToggle: (val) {
+                                  if (widget.isSwitched == true) {
+                                    showDialogOffline(context, false);
+                                  } else if (widget.isSwitched == false) {
+                                    showDialogOnline(context, true);
+                                    setState(() {
+                                      widget.isSwitched = val;
+                                    });
+                                  }
+                                }),
                           ],
                         ),
                         Center(
@@ -132,7 +141,9 @@ class _HomePageState extends State<HomePage> {
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   children: [
-                    TabBarMenu(),
+                    TabBarMenu(
+                      isSwitched: widget.isSwitched,
+                    ),
                   ],
                 ),
               ),
@@ -143,108 +154,300 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // / Notification for new order
   void showAlert(BuildContext context) {
-    showGeneralDialog(
-      barrierLabel: "Label",
-      barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.5),
-      transitionDuration: const Duration(milliseconds: 500),
-      context: context,
-      pageBuilder: (context, anim1, anim2) {
-        return Align(
-          alignment: Alignment.center,
-          child: Wrap(
-            children: [
-              Container(
-                  margin: const EdgeInsets.only(left: 12, right: 12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xff101010),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 25, 20, 25),
-                    child: Column(
-                      children: [
-                        DefaultTextStyle(
-                            textAlign: TextAlign.center,
-                            style: titleNewOrder,
-                            child: const Text(('NEW ORDER'))),
-                        const SizedBox(height: 20),
-                        DefaultTextStyle(
-                            textAlign: TextAlign.center,
-                            style: dialogClientName,
-                            child: const Text(('Rohan Pandia'))),
-                        const SizedBox(height: 15),
-                        DefaultTextStyle(
-                            textAlign: TextAlign.center,
-                            style: dialogOrderId,
-                            child: const Text(('07102001'))),
-                        const SizedBox(height: 15),
-                        DefaultTextStyle(
-                            textAlign: TextAlign.center,
-                            style: dialogAddress,
-                            child: const Text(
-                                ('Perumahan Nusa Loka Blok B2 No 2, Jombang, Ciputat, Tangsel'))),
-                        const SizedBox(height: 15),
-                        DefaultTextStyle(
-                            textAlign: TextAlign.center,
-                            style: dialogPrice,
-                            child: const Text(('\$ 10'))),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      color: const Color(0xff393939)),
-                                ),
-                                child: MaterialButton(
-                                  height: 45,
-                                  color: const Color(0xff161616),
-                                  onPressed: (() {
-                                    Navigator.pop(context);
-                                  }),
-                                  child: Text(
-                                    'Reject',
-                                    style: dialogAccRej,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                child: MaterialButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  height: 45,
-                                  color: AppColor.primaryColor,
-                                  onPressed: (() {
-                                    Navigator.pop(context);
-                                  }),
-                                  child: Text(
-                                    'Accept',
-                                    style: dialogAccRej,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
+    if (widget.isSwitched == true) {
+      showGeneralDialog(
+        barrierLabel: "Label",
+        barrierDismissible: true,
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionDuration: const Duration(milliseconds: 500),
+        context: context,
+        pageBuilder: (context, anim1, anim2) {
+          return Align(
+            alignment: Alignment.center,
+            child: Wrap(
+              children: [
+                Container(
+                    margin: const EdgeInsets.only(left: 12, right: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(0xff101010),
                     ),
-                  )),
-            ],
-          ),
-        );
-      },
-    );
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 25, 20, 25),
+                      child: Column(
+                        children: [
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: titleNewOrder,
+                              child: const Text(('NEW ORDER'))),
+                          const SizedBox(height: 20),
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: dialogClientName,
+                              child: const Text(('Rohan Pandia'))),
+                          const SizedBox(height: 15),
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: dialogOrderId,
+                              child: const Text(('07102001'))),
+                          const SizedBox(height: 15),
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: dialogAddress,
+                              child: const Text(
+                                  ('Perumahan Nusa Loka Blok B2 No 2, Jombang, Ciputat, Tangsel'))),
+                          const SizedBox(height: 15),
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: dialogPrice,
+                              child: const Text(('\$ 10'))),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: const Color(0xff393939)),
+                                  ),
+                                  child: MaterialButton(
+                                    height: 45,
+                                    color: const Color(0xff161616),
+                                    onPressed: (() {
+                                      Navigator.pop(context);
+                                    }),
+                                    child: Text(
+                                      'Reject',
+                                      style: dialogAccRej,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  child: MaterialButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    height: 45,
+                                    color: AppColor.primaryColor,
+                                    onPressed: (() {
+                                      Navigator.pop(context);
+                                    }),
+                                    child: Text(
+                                      'Accept',
+                                      style: dialogAccRej,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  /// Notification for confirm offline
+  void showDialogOffline(BuildContext context, bool Iswitched) {
+    if (widget.isSwitched == true) {
+      showGeneralDialog(
+        barrierLabel: "Label",
+        barrierDismissible: true,
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionDuration: const Duration(milliseconds: 500),
+        context: context,
+        pageBuilder: (context, anim1, anim2) {
+          return Align(
+            alignment: Alignment.center,
+            child: Wrap(
+              children: [
+                Container(
+                    margin: const EdgeInsets.only(left: 12, right: 12),
+                    decoration: const BoxDecoration(
+                      color: Color(0xff101010),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/images/ic_warn.png',
+                            width: 40,
+                            height: 35,
+                          ),
+                          const SizedBox(height: 10),
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: txtBalance,
+                              child: const Text(
+                                  ('Have a good rest. Keep doing good. Keep trying to be a better human being.'))),
+                          const SizedBox(height: 40),
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: dialogAccRej,
+                              child: const Text(
+                                  ('Are You Sure Want to Offline?'))),
+                          const SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  child: MaterialButton(
+                                    height: 30,
+                                    color: const Color(0xff161616),
+                                    onPressed: (() {
+                                      Navigator.pop(context);
+                                    }),
+                                    child: Text(
+                                      'No',
+                                      style: dialogCnfrmNo,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  child: MaterialButton(
+                                    height: 30,
+                                    color: AppColor.primaryColor,
+                                    onPressed: (() {
+                                      setState(() {
+                                        widget.isSwitched = false;
+                                        Navigator.pop(context);
+                                      });
+                                    }),
+                                    child: Text(
+                                      'Yes',
+                                      style: dialogCnfrmYesBlck,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  // notification for confirm online
+  void showDialogOnline(BuildContext context, bool isSwitched) {
+    if (isSwitched == true) {
+      showGeneralDialog(
+        barrierLabel: "Label",
+        barrierDismissible: true,
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionDuration: const Duration(milliseconds: 500),
+        context: context,
+        pageBuilder: (context, anim1, anim2) {
+          return Align(
+            alignment: Alignment.center,
+            child: Wrap(
+              children: [
+                Container(
+                    margin: const EdgeInsets.only(left: 12, right: 12),
+                    decoration: const BoxDecoration(
+                      color: Color(0xff101010),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/images/ic_warn.png',
+                            width: 40,
+                            height: 35,
+                          ),
+                          const SizedBox(height: 10),
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: txtBalance,
+                              child: const Text(
+                                  ('Work 2 or 3 times as much as other people, because effort never deceives results.'))),
+                          const SizedBox(height: 40),
+                          DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: dialogAccRej,
+                              child: const Text(('Are You Ready to Rumble?'))),
+                          const SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  child: MaterialButton(
+                                    height: 30,
+                                    color: const Color(0xff161616),
+                                    onPressed: (() {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        widget.isSwitched = false;
+                                      });
+                                    }),
+                                    child: Text(
+                                      'No',
+                                      style: dialogCnfrmNo,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  child: MaterialButton(
+                                    height: 30,
+                                    color: AppColor.primaryColor,
+                                    onPressed: (() {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        isSwitched = true;
+                                      });
+                                    }),
+                                    child: Text(
+                                      'Yes',
+                                      style: dialogCnfrmYesBlck,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )),
+              ],
+            ),
+          );
+        },
+      );
+    }
   }
 }

@@ -9,7 +9,8 @@ import 'package:ulesstrash_driver/utils/textstyle.dart';
 import '../../utils/color.dart';
 
 class TabBarMenu extends StatefulWidget {
-  TabBarMenu({Key? key}) : super(key: key);
+  bool isSwitched;
+  TabBarMenu({Key? key, this.isSwitched = true}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -136,8 +137,12 @@ class _TabBarMenuState extends State<TabBarMenu>
               controller: _tabController,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                const AllScreen(),
-                const RequestScreen(),
+                AllScreen(
+                  isSwitch: widget.isSwitched,
+                ),
+                RequestScreen(
+                  isSwitched: widget.isSwitched,
+                ),
                 const HandlingScreen(),
                 const CompleteScreen()
               ],

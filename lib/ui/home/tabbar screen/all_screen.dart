@@ -8,7 +8,8 @@ import 'package:ulesstrash_driver/utils/textstyle.dart';
 import '../../map/map_details.dart';
 
 class AllScreen extends StatelessWidget {
-  const AllScreen({super.key});
+  bool isSwitch;
+  AllScreen({super.key, this.isSwitch = true});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,9 @@ class AllScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MapSample()));
+                            builder: (context) => MapSample(
+                                  isSwitched: isSwitch,
+                                )));
                   },
                   child: Container(
                     decoration: BoxDecoration(color: Colors.white, boxShadow: [
